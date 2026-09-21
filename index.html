@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PediCPR : Pediatric CPR Drug Dose</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="page-wrapper">
+
+  <header class="site-header">
+    <div class="header-text">
+      <h1>PediCPR</h1>
+      <p class="subtitle">Pediatric CPR Drug Dose</p>
+      <p class="affiliation">ภาควิชากุมารเวชศาสตร์ มหาวิทยาลัยนเรศวร</p>
+    </div>
+    <button type="button" id="printBtn" class="btn-print no-print">พิมพ์ผลลัพธ์ 🖨</button>
+  </header>
+
+  <main>
+
+    <section class="card" id="patient-section">
+      <h2>ส่วนที่ 1 : ข้อมูลผู้ป่วย</h2>
+
+      <form id="patientForm" class="patient-form">
+        <div class="field-group">
+          <label>อายุ</label>
+          <div class="age-inputs">
+            <input type="number" id="ageYears" min="0" max="18" step="1" inputmode="numeric" placeholder="0">
+            <span class="unit-label">ปี</span>
+            <input type="number" id="ageMonths" min="0" max="11" step="1" inputmode="numeric" placeholder="0">
+            <span class="unit-label">เดือน</span>
+          </div>
+          <small class="field-hint">ระบุ "เดือน" สำหรับเด็กอายุน้อยกว่า 1 ปี</small>
+        </div>
+
+        <div class="field-group">
+          <label for="weightInput">น้ำหนักตัว (กิโลกรัม)</label>
+          <div class="weight-inputs">
+            <input type="number" id="weightInput" min="0" step="0.1" inputmode="decimal" placeholder="เช่น 12.5">
+            <span class="unit-label">kg</span>
+            <button type="button" id="unknownWeightBtn" class="btn-toggle">ไม่ทราบน้ำหนัก</button>
+          </div>
+        </div>
+
+        <button type="submit" id="calcBtn" class="btn-primary">คำนวณ</button>
+      </form>
+
+      <div id="errorMsg" class="error-msg" hidden></div>
+
+      <div id="patientSummary" class="patient-summary" hidden>
+        <p><strong>อายุ:</strong> <span id="ageSummaryValue">-</span></p>
+        <p><strong>น้ำหนักที่ใช้ในการคำนวณ:</strong> <span id="weightUsedValue">-</span> kg
+          <span id="weightSourceNote" class="source-note"></span>
+        </p>
+      </div>
+    </section>
+
+    <section class="card" id="drugs-section">
+      <h2>ส่วนที่ 2 : Drugs</h2>
+
+      <div class="list-header drug-list-header">
+        <span>ชื่อยา</span>
+        <span>ขนาดยา / สูตร</span>
+        <span>ผลลัพธ์</span>
+      </div>
+
+      <div class="drug-list">
+
+        <div class="drug-row drug-adrenaline">
+          <div class="drug-name">Adrenaline <span class="route-tag">IV</span></div>
+          <div class="drug-formula">1:10,000 · 0.1 ml/kg <span class="max-tag">max 1 mg/dose</span></div>
+          <div class="drug-result"><span id="adrIV">-</span> ml</div>
+        </div>
+
+        <div class="drug-row drug-adrenaline">
+          <div class="drug-name">Adrenaline <span class="route-tag">ET</span></div>
+          <div class="drug-formula">1:1,000 · 0.1 ml/kg <span class="max-tag">max 1 mg/dose</span></div>
+          <div class="drug-result"><span id="adrET1k">-</span> ml</div>
+        </div>
+
+        <div class="drug-row drug-amiodarone">
+          <div class="drug-name">Amiodarone <span class="route-tag">dose ที่ 1</span></div>
+          <div class="drug-formula">50 mg/ml · 5 mg/kg <span class="max-tag">max 150 mg</span></div>
+          <div class="drug-result"><span id="amio1Mg">-</span> mg</div>
+        </div>
+
+        <div class="drug-row drug-amiodarone">
+          <div class="drug-name">Amiodarone <span class="route-tag">dose ที่ 2</span></div>
+          <div class="drug-formula">50 mg/ml · 5 mg/kg <span class="max-tag">max 300 mg</span></div>
+          <div class="drug-result"><span id="amio2Mg">-</span> mg</div>
+        </div>
+
+        <div class="drug-row drug-amiodarone">
+          <div class="drug-name">Amiodarone <span class="route-tag">dose ที่ 3</span></div>
+          <div class="drug-formula">50 mg/ml · 5 mg/kg <span class="max-tag">max 300 mg</span></div>
+          <div class="drug-result"><span id="amio3Mg">-</span> mg</div>
+        </div>
+
+        <div class="drug-row drug-atropine">
+          <div class="drug-name">Atropine</div>
+          <div class="drug-formula">0.6 mg/ml · 0.02 mg/kg <span class="max-tag">max 0.5 mg</span></div>
+          <div class="drug-result"><span id="atropineMg">-</span> mg</div>
+        </div>
+
+        <div class="drug-row drug-adenosine">
+          <div class="drug-name">Adenosine <span class="route-tag">dose ที่ 1</span></div>
+          <div class="drug-formula">6 mg/2 ml · 0.1 mg/kg <span class="max-tag">max 6 mg</span></div>
+          <div class="drug-result"><span id="adeno1Mg">-</span> mg</div>
+        </div>
+
+        <div class="drug-row drug-adenosine">
+          <div class="drug-name">Adenosine <span class="route-tag">dose ที่ 2</span></div>
+          <div class="drug-formula">6 mg/2 ml · 0.2 mg/kg <span class="max-tag">max 12 mg</span></div>
+          <div class="drug-result"><span id="adeno2Mg">-</span> mg</div>
+        </div>
+
+        <div class="drug-row drug-lidocaine">
+          <div class="drug-name">2% Lidocaine</div>
+          <div class="drug-formula">20 mg/ml · 1 mg/kg</div>
+          <div class="drug-result"><span id="lidoMg">-</span> mg</div>
+        </div>
+
+        <div class="drug-row drug-naloxone">
+          <div class="drug-name">Naloxone</div>
+          <div class="drug-formula">0.4 mg/ml · 0.1 mg/kg <span class="max-tag">max 2 mg</span></div>
+          <div class="drug-result"><span id="naloxMg">-</span> mg</div>
+        </div>
+
+        <div class="drug-row drug-calcium">
+          <div class="drug-name">10% Calcium gluconate</div>
+          <div class="drug-formula">1 ml/kg <span class="max-tag">max 10 ml</span></div>
+          <div class="drug-result"><span id="calciumMl">-</span> ml</div>
+        </div>
+
+        <div class="drug-row drug-nahco3">
+          <div class="drug-name">7.5% NaHCO3</div>
+          <div class="drug-formula">1 ml/kg <span class="max-tag">max 50 ml</span></div>
+          <div class="drug-result"><span id="nahco3Ml">-</span> ml</div>
+        </div>
+
+        <div class="drug-row drug-mgso4">
+          <div class="drug-name">50% MgSO4</div>
+          <div class="drug-formula">500 mg/ml · 25-50 mg/kg <span class="max-tag">max 2000 mg</span></div>
+          <div class="drug-result"><span id="mgso4Low">-</span><span id="mgso4RangeSuffix"> - <span id="mgso4High">-</span></span> ml</div>
+        </div>
+
+        <div class="drug-row drug-glucose">
+          <div class="drug-name">50% Glucose</div>
+          <div class="drug-formula">1 ml/kg <span class="max-tag">max 50 ml</span></div>
+          <div class="drug-result"><span id="glucoseMl">-</span> ml</div>
+        </div>
+
+        <div class="drug-row drug-diazepam">
+          <div class="drug-name">Diazepam</div>
+          <div class="drug-formula">10 mg/2 ml · 0.3 mg/kg <span class="max-tag">max 10 mg</span></div>
+          <div class="drug-result"><span id="diazepamMg">-</span> mg</div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="card" id="device-section">
+      <h2>ส่วนที่ 3 : Device</h2>
+
+      <div class="list-header device-list-header">
+        <span>อุปกรณ์</span>
+        <span>สูตร</span>
+        <span>ผลลัพธ์</span>
+      </div>
+
+      <div class="device-list">
+
+        <div class="device-row">
+          <div class="device-name">ETT size (cuffed)</div>
+          <div class="device-formula">(age/4) + 3.5</div>
+          <div class="device-result">เบอร์ <span id="ettCuffedLow">-</span><span id="ettCuffedRangeSuffix"> - <span id="ettCuffedHigh">-</span></span></div>
+        </div>
+
+        <div class="device-row">
+          <div class="device-name">ETT size (uncuffed)</div>
+          <div class="device-formula">(age/4) + 4</div>
+          <div class="device-result">เบอร์ <span id="ettUncuffedLow">-</span><span id="ettUncuffedRangeSuffix"> - <span id="ettUncuffedHigh">-</span></span></div>
+        </div>
+
+        <div class="device-row">
+          <div class="device-name">ETT depth</div>
+          <div class="device-formula">(age/2) + 12</div>
+          <div class="device-result"><span id="ettDepth">-</span> cm</div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>⚠ เครื่องมือนี้เป็นเพียงตัวช่วยคำนวณเบื้องต้น โปรดตรวจสอบซ้ำกับดุลยพินิจทางคลินิกและมาตรฐานของสถานพยาบาลก่อนใช้จริงทุกครั้ง</p>
+  </footer>
+
+</div>
+<script src="js/script.js"></script>
+</body>
+</html>

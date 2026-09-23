@@ -165,14 +165,14 @@
     computeDefib(weight, 8, 'defib4');
     computeDefib(weight, 10, 'defib5');
 
-    // Synchronized Cardioversion dose 1: 0.5-1 J/kg range, round to nearest integer
-    const cardio1Low = Math.round(weight * 0.5);
-    const cardio1High = Math.round(weight * 1);
+    // Synchronized Cardioversion dose 1: 0.5-1 J/kg range, max 200 J, round to nearest integer
+    const cardio1Low = Math.round(capValue(weight * 0.5, 200));
+    const cardio1High = Math.round(capValue(weight * 1, 200));
     renderRangeResult('cardio1Low', 'cardio1High', 'cardio1RangeSuffix',
       String(cardio1Low), String(cardio1High));
 
-    // Synchronized Cardioversion dose 2: 2 J/kg, round up to nearest multiple of 5
-    setResult('cardio2', String(roundUpToMultiple(weight * 2, 5)));
+    // Synchronized Cardioversion dose 2: 2 J/kg, max 200 J, round up to nearest multiple of 5
+    setResult('cardio2', String(roundUpToMultiple(capValue(weight * 2, 200), 5)));
   }
 
   function renderDevices(ageYears, ageMonths) {

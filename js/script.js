@@ -75,9 +75,19 @@
     setResult(resultId, formatNum(capValue(raw, maxMl)));
   }
 
-  function computeMg(weight, mgPerKg, maxMg, mgId) {
+  function computeMg(weight, mgPerKg, maxMg, mgId, minMg) {
     const rawMg = weight * mgPerKg;
-    setResult(mgId, formatNum(capValue(rawMg, maxMg)));
+    let mg = capValue(rawMg, maxMg);
+    if (minMg !== undefined && minMg !== null) mg = Math.max(mg, minMg);
+    setResult(mgId, formatNum(mg));
+  }
+
+  function roundToNearestMultiple(value, multiple) {
+    return Math.round(value / multiple) * multiple;
+  }
+
+  function roundUpToMultiple(value, multiple) {
+    return Math.ceil(value / multiple) * multiple;
   }
 
   function renderRangeResult(lowId, highId, suffixId, lowText, highText) {
@@ -110,8 +120,8 @@
     computeMg(weight, 5, 300, 'amio2Mg');
     computeMg(weight, 5, 300, 'amio3Mg');
 
-    // Atropine: 0.02 mg/kg, max 0.5 mg
-    computeMg(weight, 0.02, 0.5, 'atropineMg');
+    // Atropine: 0.02 mg/kg, min 0.1 mg, max 0.5 mg
+    computeMg(weight, 0.02, 0.5, 'atropineMg', 0.1);
 
     // Adenosine
     computeMg(weight, 0.1, 6, 'adeno1Mg');
@@ -140,6 +150,29 @@
 
     // Diazepam: 0.3 mg/kg, max 10 mg
     computeMg(weight, 0.3, 10, 'diazepamMg');
+  }
+
+  function computeDefib(weight, joulesPerKg, resultId) {
+    const capped = Math.min(weight * joulesPerKg, 200);
+    setResult(resultId, String(roundToNearestMultiple(capped, 5)));
+  }
+
+  function renderElectrical(weight) {
+    // Defibrillation: J/kg, max 200 J, round to nearest multiple of 5
+    computeDefib(weight, 2, 'defib1');
+    computeDefib(weight, 4, 'defib2');
+    computeDefib(weight, 6, 'defib3');
+    computeDefib(weight, 8, 'defib4');
+    computeDefib(weight, 10, 'defib5');
+
+    // Synchronized Cardioversion dose 1: 0.5-1 J/kg range, round to nearest integer
+    const cardio1Low = Math.round(weight * 0.5);
+    const cardio1High = Math.round(weight * 1);
+    renderRangeResult('cardio1Low', 'cardio1High', 'cardio1RangeSuffix',
+      String(cardio1Low), String(cardio1High));
+
+    // Synchronized Cardioversion dose 2: 2 J/kg, round up to nearest multiple of 5
+    setResult('cardio2', String(roundUpToMultiple(weight * 2, 5)));
   }
 
   function renderDevices(ageYears, ageMonths) {
@@ -201,5 +234,6 @@
 
     renderDrugs(weightUsed);
     renderDevices(ageYears, ageMonths);
+    renderElectrical(weightUsed);
   }
 })();

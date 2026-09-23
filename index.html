@@ -27,7 +27,7 @@
   <main>
 
     <section class="card" id="patient-section">
-      <h2>ส่วนที่ 1 : ข้อมูลผู้ป่วย</h2>
+      <h2>ข้อมูลผู้ป่วย</h2>
 
       <form id="patientForm" class="patient-form">
         <div class="field-group">
@@ -64,7 +64,7 @@
     </section>
 
     <section class="card" id="drugs-section">
-      <h2>ส่วนที่ 2 : Drugs</h2>
+      <h2>Drug</h2>
 
       <div class="list-header drug-list-header">
         <span>ชื่อยา</span>
@@ -106,7 +106,7 @@
 
         <div class="drug-row drug-atropine">
           <div class="drug-name">Atropine</div>
-          <div class="drug-formula">0.6 mg/ml · 0.02 mg/kg <span class="max-tag">max 0.5 mg</span></div>
+          <div class="drug-formula">0.6 mg/ml · 0.02 mg/kg <span class="max-tag">min 0.1 mg · max 0.5 mg</span></div>
           <div class="drug-result"><span id="atropineMg">-</span> mg</div>
         </div>
 
@@ -168,7 +168,7 @@
     </section>
 
     <section class="card" id="device-section">
-      <h2>ส่วนที่ 3 : Device</h2>
+      <h2>Device</h2>
 
       <div class="list-header device-list-header">
         <span>อุปกรณ์</span>
@@ -194,6 +194,62 @@
           <div class="device-name">ETT depth</div>
           <div class="device-formula">(age/2) + 12</div>
           <div class="device-result"><span id="ettDepth">-</span> cm</div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="card" id="electrical-section">
+      <h2>Electrical Therapy</h2>
+
+      <div class="list-header elec-list-header">
+        <span>รายการ</span>
+        <span>สูตร</span>
+        <span>ผลลัพธ์</span>
+      </div>
+
+      <div class="elec-list">
+
+        <div class="elec-row elec-defib">
+          <div class="drug-name">Defibrillation <span class="route-tag">dose ที่ 1</span></div>
+          <div class="drug-formula">2 J/kg <span class="max-tag">max 200 J</span></div>
+          <div class="drug-result"><span id="defib1">-</span> J</div>
+        </div>
+
+        <div class="elec-row elec-defib">
+          <div class="drug-name">Defibrillation <span class="route-tag">dose ที่ 2</span></div>
+          <div class="drug-formula">4 J/kg <span class="max-tag">max 200 J</span></div>
+          <div class="drug-result"><span id="defib2">-</span> J</div>
+        </div>
+
+        <div class="elec-row elec-defib">
+          <div class="drug-name">Defibrillation <span class="route-tag">dose ที่ 3</span></div>
+          <div class="drug-formula">6 J/kg <span class="max-tag">max 200 J</span></div>
+          <div class="drug-result"><span id="defib3">-</span> J</div>
+        </div>
+
+        <div class="elec-row elec-defib">
+          <div class="drug-name">Defibrillation <span class="route-tag">dose ที่ 4</span></div>
+          <div class="drug-formula">8 J/kg <span class="max-tag">max 200 J</span></div>
+          <div class="drug-result"><span id="defib4">-</span> J</div>
+        </div>
+
+        <div class="elec-row elec-defib">
+          <div class="drug-name">Defibrillation <span class="route-tag">dose ที่ 5</span></div>
+          <div class="drug-formula">10 J/kg <span class="max-tag">max 200 J</span></div>
+          <div class="drug-result"><span id="defib5">-</span> J</div>
+        </div>
+
+        <div class="elec-row elec-cardio">
+          <div class="drug-name">Synchronized Cardioversion <span class="route-tag">dose ที่ 1</span></div>
+          <div class="drug-formula">0.5 - 1 J/kg</div>
+          <div class="drug-result"><span id="cardio1Low">-</span><span id="cardio1RangeSuffix"> - <span id="cardio1High">-</span></span> J</div>
+        </div>
+
+        <div class="elec-row elec-cardio">
+          <div class="drug-name">Synchronized Cardioversion <span class="route-tag">dose ที่ 2</span></div>
+          <div class="drug-formula">2 J/kg</div>
+          <div class="drug-result"><span id="cardio2">-</span> J</div>
         </div>
 
       </div>

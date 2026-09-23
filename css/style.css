@@ -23,8 +23,10 @@
   --drug-glucose: #37474f;
   --drug-diazepam: #5c6bc0;
 
-  --elec-defib: #c62828;
+  --elec-defib: #f9a825;
   --elec-cardio: #00695c;
+
+  --bp-vital: #0277bd;
 
   --a4-width: 210mm;
 }
@@ -268,7 +270,8 @@ input[type="number"]:focus {
 
 .drug-list,
 .device-list,
-.elec-list {
+.elec-list,
+.bp-list {
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -276,7 +279,8 @@ input[type="number"]:focus {
 
 .drug-row,
 .device-row,
-.elec-row {
+.elec-row,
+.bp-row {
   display: grid;
   grid-template-columns: 1.5fr 1.7fr 1.3fr;
   gap: 8px;
@@ -289,7 +293,8 @@ input[type="number"]:focus {
 }
 
 .drug-row,
-.elec-row { border-left-color: var(--row-color, var(--color-border)); }
+.elec-row,
+.bp-row { border-left-color: var(--row-color, var(--color-border)); }
 
 .drug-adrenaline { --row-color: var(--drug-adrenaline); }
 .drug-amiodarone { --row-color: var(--drug-amiodarone); }
@@ -304,6 +309,7 @@ input[type="number"]:focus {
 .drug-diazepam   { --row-color: var(--drug-diazepam); }
 .elec-defib      { --row-color: var(--elec-defib); }
 .elec-cardio     { --row-color: var(--elec-cardio); }
+.bp-vital        { --row-color: var(--bp-vital); }
 
 .drug-name {
   font-weight: 600;
@@ -389,7 +395,8 @@ input[type="number"]:focus {
 
   .drug-row,
   .device-row,
-  .elec-row {
+  .elec-row,
+  .bp-row {
     grid-template-columns: 1fr;
     gap: 2px;
     padding: 10px 12px;
@@ -431,27 +438,33 @@ input[type="number"]:focus {
   }
 
   html {
-    font-size: 12.5px;
+    font-size: 11.5px;
   }
 
   body {
-    line-height: 1.2;
+    line-height: 1.15;
   }
 
   .card {
-    padding: 5px 9px;
-    margin-bottom: 5px;
+    padding: 4px 8px;
+    margin-bottom: 4px;
     break-inside: avoid;
   }
 
   .drug-row,
   .device-row,
-  .elec-row {
-    padding: 2.5px 8px;
+  .elec-row,
+  .bp-row {
+    padding: 2px 7px;
   }
 
   .card h2 {
-    margin: 0 0 8px;
+    margin: 0 0 5px;
+  }
+
+  .drug-formula,
+  .device-formula {
+    font-size: 0.74rem;
   }
 
   .site-footer {

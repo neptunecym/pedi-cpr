@@ -175,6 +175,25 @@
     setResult('cardio2', String(roundUpToMultiple(capValue(weight * 2, 200), 5)));
   }
 
+  function renderVitals(ageYears, ageMonths) {
+    const totalMonths = ageYears * 12 + ageMonths;
+
+    let systolic;
+    if (totalMonths < 1) {
+      systolic = 60;
+    } else if (totalMonths < 12) {
+      systolic = 70;
+    } else if (ageYears < 10) {
+      systolic = 70 + 2 * ageYears;
+    } else {
+      systolic = 90;
+    }
+    setResult('systolicBp', String(systolic));
+
+    const map = totalMonths < 12 ? 40 : Math.ceil(40 + 1.5 * ageYears);
+    setResult('mapBp', String(map));
+  }
+
   function renderDevices(ageYears, ageMonths) {
     const ageDecimal = (ageYears * 12 + ageMonths) / 12;
 
@@ -232,6 +251,7 @@
     weightSourceNote.textContent = sourceNote;
     patientSummary.hidden = false;
 
+    renderVitals(ageYears, ageMonths);
     renderDrugs(weightUsed);
     renderDevices(ageYears, ageMonths);
     renderElectrical(weightUsed);

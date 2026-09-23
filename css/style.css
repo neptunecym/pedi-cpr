@@ -454,18 +454,6 @@ input[type="number"]:focus {
     margin: 0 0 8px;
   }
 
-  .drug-list,
-  .elec-list {
-    display: block;
-    column-count: 2;
-    column-gap: 10px;
-  }
-
-  .drug-list .drug-row,
-  .elec-list .elec-row {
-    margin-bottom: 2.5px;
-  }
-
   .site-footer {
     margin-top: 2px;
     padding-top: 6px;
